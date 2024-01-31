@@ -1,14 +1,12 @@
 package in.controller;
 
 import domain.entity.CounterReadings;
-import domain.exception.CounterReadingsException;
-import domain.exception.UserException;
 import service.CounterReadingsService;
 import service.impl.CounterReadingsServiceImpl;
 import util.CounterReadingsRepository;
 import util.UserRepository;
 
-import java.sql.SQLOutput;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -36,15 +34,7 @@ public class CounterReadingsController {
         final String counterTye = scanner.nextLine();
         System.out.println("Ведите показания");
         final Double readings = scanner.nextDouble();
-        try {
-            counterReadingsService.create(userId, counterTye, readings);
-        }
-        catch (CounterReadingsException e) {
-            e.getMessage();
-        }
-        catch (UserException e) {
-            e.getMessage();
-        }
+        counterReadingsService.create(userId, counterTye, readings);
     }
 
     /**
@@ -55,12 +45,7 @@ public class CounterReadingsController {
         System.out.println("Ведите номер лицевого счета");
         final Integer userId = scanner.nextInt();
         List<CounterReadings> actualReadings = counterReadingsService.readActualReadings(userId);
-        try {
-            actualReadings.forEach(System.out::println);
-        }
-        catch (UserException e){
-            e.printStackTrace();
-        }
+        actualReadings.forEach(System.out::println);
     }
 
     /**
@@ -73,15 +58,7 @@ public class CounterReadingsController {
         System.out.println("Введите номер месяца");
         Integer month = scanner.nextInt();
         List<CounterReadings> monthReadings = counterReadingsService.readMonthReadings(userId, month);
-        try {
-            monthReadings.forEach(System.out::println);
-        }
-        catch (CounterReadingsException e) {
-            e.getMessage();
-        }
-        catch (UserException e) {
-            e.getMessage();
-        }
+        monthReadings.forEach(System.out::println);
     }
 
     /**
@@ -92,7 +69,7 @@ public class CounterReadingsController {
         System.out.println("Введите номер лицевого счета");
         Integer userId = scanner.nextInt();
         Map<String, List<CounterReadings>> historyMap = counterReadingsService.readHistoryReadings(userId);
-        for(Map.Entry<String, List<CounterReadings>> x : historyMap.entrySet()) {
+        for (Map.Entry<String, List<CounterReadings>> x : historyMap.entrySet()) {
             System.out.println(x.getKey());
             x.getValue().forEach(System.out::println);
         }

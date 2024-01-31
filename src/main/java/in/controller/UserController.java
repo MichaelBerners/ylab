@@ -47,8 +47,14 @@ public class UserController {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ведите email пользователя");
         final String email = scanner.nextLine();
+        if(email.length() == 0){
+            throw new UserException("email не должен быть пустым");
+        }
         System.out.println("Ведите password пользователя");
         final String password = scanner.nextLine();
+        if(password.length() == 0){
+            throw new UserException("password не должен быть пустым");
+        }
         userService.authorization(email, password);
 
     }

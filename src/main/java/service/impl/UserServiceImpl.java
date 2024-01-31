@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     /**
      * хранилище пользователей
      */
-    private final Map<Integer, User> userRepository;// = UserRepository.getUserRepository();
+    private final Map<Integer, User> userRepository;
 
 
     /**

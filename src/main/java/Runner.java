@@ -47,9 +47,7 @@ public class Runner {
                         CounterReadingsController.readHistoryReadings();
                         break;
                 }
-            } catch (CounterReadingsException e) {
-                System.out.println(e.getMessage());
-            } catch (UserException e) {
+            } catch (CounterReadingsException | UserException e) {
                 System.out.println(e.getMessage());
             }
         }

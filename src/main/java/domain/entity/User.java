@@ -1,7 +1,6 @@
 package domain.entity;
 
 import lombok.*;
-import lombok.experimental.FieldNameConstants;
 
 /**
  * класс описывающий пользователя

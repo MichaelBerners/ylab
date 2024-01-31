@@ -12,7 +12,6 @@ import util.CounterReadingsRepository;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,11 +20,11 @@ public class CounterReadingsServiceImpl implements CounterReadingsService {
     /**
      * хранилище пользователей
      */
-    private final Map<Integer, User> userRepository; //= UserRepository.getUserRepository();
+    private final Map<Integer, User> userRepository;
     /**
      * хранилище показаний счетчиков
      */
-    private final Map<Integer, CounterReadings> counterReadingsRepository;//= CounterReadingsRepository.getCounterReadingsRepository();
+    private final Map<Integer, CounterReadings> counterReadingsRepository;
 
 
     /**
