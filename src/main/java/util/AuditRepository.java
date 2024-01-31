@@ -13,7 +13,6 @@ public class AuditRepository {
      * хранилище действий
      */
     private final static Map<Integer, Map<String, LocalDateTime>> AUDIT_REPOSITORY = new HashMap<>();
-
     /**
      * добавление нового действия пользователя в хранилище
      * @param userId id пользователя
@@ -24,6 +23,5 @@ public class AuditRepository {
         final LocalDateTime localDateTime = LocalDateTime.now();
         actionMap.put(action, localDateTime);
         AUDIT_REPOSITORY.put(userId, actionMap);
-
     }
 }
