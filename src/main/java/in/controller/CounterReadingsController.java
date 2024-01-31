@@ -1,6 +1,8 @@
 package in.controller;
 
 import domain.entity.CounterReadings;
+import domain.exception.CounterReadingsException;
+import domain.exception.UserException;
 import service.CounterReadingsService;
 import service.impl.CounterReadingsServiceImpl;
 import util.CounterReadingsRepository;
@@ -27,12 +29,22 @@ public class CounterReadingsController {
     public static void createNewCounterReadings() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ведите номер лицевого счета");
-        final Integer userId = scanner.nextInt();
+        final Integer userId = scanner.nextInt(2);
+        System.out.println();
+        System.out.println("lol");
         System.out.println("Введите тип счетчика");
         final String counterTye = scanner.nextLine();
         System.out.println("Ведите показания");
         final Double readings = scanner.nextDouble();
-        counterReadingsService.create(userId, counterTye, readings);
+        try {
+            counterReadingsService.create(userId, counterTye, readings);
+        }
+        catch (CounterReadingsException e) {
+            e.getMessage();
+        }
+        catch (UserException e) {
+            e.getMessage();
+        }
     }
 
     /**
@@ -43,7 +55,12 @@ public class CounterReadingsController {
         System.out.println("Ведите номер лицевого счета");
         final Integer userId = scanner.nextInt();
         List<CounterReadings> actualReadings = counterReadingsService.readActualReadings(userId);
-        actualReadings.forEach(System.out::println);
+        try {
+            actualReadings.forEach(System.out::println);
+        }
+        catch (UserException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -56,7 +73,15 @@ public class CounterReadingsController {
         System.out.println("Введите номер месяца");
         Integer month = scanner.nextInt();
         List<CounterReadings> monthReadings = counterReadingsService.readMonthReadings(userId, month);
-        monthReadings.forEach(System.out::println);
+        try {
+            monthReadings.forEach(System.out::println);
+        }
+        catch (CounterReadingsException e) {
+            e.getMessage();
+        }
+        catch (UserException e) {
+            e.getMessage();
+        }
     }
 
     /**

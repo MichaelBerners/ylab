@@ -1,5 +1,8 @@
+import domain.exception.CounterReadingsException;
+import domain.exception.UserException;
 import in.controller.CounterReadingsController;
 import in.controller.UserController;
+import lombok.SneakyThrows;
 
 import java.util.Scanner;
 
@@ -8,6 +11,7 @@ import java.util.Scanner;
  * для подачи показаний счетчиков отопления, горячей и холодной воды
  */
 public class Runner {
+    @SneakyThrows
     public static void main(String[] args) {
         int number = 0;
 
@@ -22,27 +26,32 @@ public class Runner {
             System.out.println("7. выход");
             Scanner scan = new Scanner(System.in);
             number = scan.nextInt();
-            switch (number) {
-                case 1 :
-                    UserController.createNewUser();
-                    break;
-                case 2 :
-                    UserController.authorizationUser();
-                    break;
-                case 3 :
-                    CounterReadingsController.createNewCounterReadings();
-                    break;
-                case 4 :
-                    CounterReadingsController.readActualReadings();
-                    break;
-                case 5 :
-                    CounterReadingsController.readMonthReadings();
-                    break;
-                case 6 :
-                    CounterReadingsController.readHistoryReadings();
-                    break;
+            try {
+                switch (number) {
+                    case 1:
+                        UserController.createNewUser();
+                        break;
+                    case 2:
+                        UserController.authorizationUser();
+                        break;
+                    case 3:
+                        CounterReadingsController.createNewCounterReadings();
+                        break;
+                    case 4:
+                        CounterReadingsController.readActualReadings();
+                        break;
+                    case 5:
+                        CounterReadingsController.readMonthReadings();
+                        break;
+                    case 6:
+                        CounterReadingsController.readHistoryReadings();
+                        break;
+                }
+            } catch (CounterReadingsException e) {
+                System.out.println(e.getMessage());
+            } catch (UserException e) {
+                System.out.println(e.getMessage());
             }
-
         }
         while (number >= 1 && number <= 6);
     }
