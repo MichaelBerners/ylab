@@ -3,8 +3,8 @@ package in.controller;
 import domain.entity.CounterReadings;
 import service.CounterReadingsService;
 import service.impl.CounterReadingsServiceImpl;
-import util.CounterReadingsRepository;
-import util.UserRepository;
+import resources.CounterReadingsRepository;
+import resources.UserRepository;
 
 
 import java.util.List;

@@ -1,7 +1,6 @@
-package util;
+package resources;
 
 import domain.entity.CounterReadings;
-import domain.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;

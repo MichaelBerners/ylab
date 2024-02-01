@@ -3,7 +3,7 @@ package in.controller;
 import domain.exception.UserException;
 import service.UserService;
 import service.impl.UserServiceImpl;
-import util.UserRepository;
+import resources.UserRepository;
 
 import java.util.Scanner;
 

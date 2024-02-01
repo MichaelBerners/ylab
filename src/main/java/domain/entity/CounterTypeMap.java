@@ -1,7 +1,7 @@
 package domain.entity;
 
 import domain.exception.UserException;
-import util.UserRepository;
+import resources.UserRepository;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -7,8 +7,8 @@ import domain.exception.CounterReadingsException;
 import domain.exception.UserException;
 import lombok.Data;
 import service.CounterReadingsService;
-import util.AuditRepository;
-import util.CounterReadingsRepository;
+import resources.AuditRepository;
+import resources.CounterReadingsRepository;
 
 import java.time.LocalDate;
 import java.util.Collection;

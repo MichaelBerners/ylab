@@ -5,8 +5,8 @@ import domain.entity.UserRole;
 import domain.exception.UserException;
 import lombok.Data;
 import service.UserService;
-import util.AuditRepository;
-import util.UserRepository;
+import resources.AuditRepository;
+import resources.UserRepository;
 
 import java.util.Map;
 
