@@ -25,5 +25,5 @@ public interface UserService {
      * @param id id пользователя
      * @return выводит права пользователя
      */
-    UserRole getUserRole(Integer id);
+    String getUserRole(Long id);
 }

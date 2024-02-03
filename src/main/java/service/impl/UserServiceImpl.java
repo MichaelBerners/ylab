@@ -1,9 +1,11 @@
 package service.impl;
 
+import domain.dao.UserDao;
 import domain.entity.User;
 import domain.entity.UserRole;
 import domain.exception.UserException;
 import lombok.Data;
+import service.UserAuditService;
 import service.UserService;
 import resources.AuditRepository;
 import resources.UserRepository;
@@ -13,11 +15,8 @@ import java.util.Map;
 
 @Data
 public class UserServiceImpl implements UserService {
-    /**
-     * хранилище пользователей
-     */
-    private final Map<Integer, User> userRepository;
-
+    private final UserDao userDao;
+    private final UserAuditService userAuditService;
 
     /**
      * Метод авторизации (создания нового) пользователя с правами по умолчанию : UserRole.CLIENT
@@ -29,21 +28,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void create(String firstName, String lastName, String email, String password) {
-
-        final User save = new User();
-        final int id = UserRepository.getId();
-        save.setId(id);
-        save.setUserRole(UserRole.CLIENT);
-        save.setFirstName(firstName);
-        save.setLastName(lastName);
-        save.setEmail(email);
-        save.setPassword(password);
-        if(!userRepository.values().contains(save)) {
-            userRepository.put(id, save);
-            System.out.println("registration was successful, personal account number : " + id);
-
-        }
-        else throw new UserException("The user exists!");
+        User createdUser = userDao.create(firstName, lastName, email, password);
+        userAuditService.create(createdUser.getId(), "creating a user");
+        System.out.println("registration was successful");
     }
 
     /**
@@ -53,16 +40,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void authorization(String email, String password) {
-        User userAuthorization = userRepository.values().stream()
-                .filter($ -> $.getEmail().equals(email))
-                .findFirst()
-                .orElseThrow(() -> new UserException("User not found"));
-        if(userAuthorization.getPassword().equals(password)) {
-            System.out.println("Authorization is successful!!!");
-            AuditRepository.addRepository(userAuthorization.getId(), "authorization");
-
-        }
-        else System.out.println("The password is incorrect");
+        User findUser = userDao.findUserByEmailAndPassword(email, password);
+        System.out.println("Authorization is successful!!!");
+        userAuditService.create(findUser.getId(), "authorization");
     }
 
     /**
@@ -71,14 +51,8 @@ public class UserServiceImpl implements UserService {
      * @return выводит права пользователя
      */
     @Override
-    public UserRole getUserRole(Integer id) {
-        final User userResult = userRepository.values().stream()
-                .filter($ -> $.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new UserException("User not found"));
+    public String getUserRole(Long id) {
 
-        final UserRole result = userResult.getUserRole();
-
-        return result;
+        return userDao.getUserRoleByUserId(id);
     }
 }

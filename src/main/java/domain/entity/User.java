@@ -11,7 +11,7 @@ import lombok.*;
 public class User {
 
     @EqualsAndHashCode.Exclude
-    private Integer id;
+    private Long id;
     @EqualsAndHashCode.Exclude
     private UserRole userRole;
     @EqualsAndHashCode.Exclude

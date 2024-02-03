@@ -20,20 +20,8 @@ import java.util.Scanner;
  * для подачи показаний счетчиков отопления, горячей и холодной воды
  */
 public class Runner {
-    @SneakyThrows
     public static void main(String[] args) {
-        try {
-            Connection connection = ConnectionManager.getConnection();
-            Database database =
-                    DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            Liquibase liquibase =
-                    new Liquibase("db/changelog/db.changelog.xml", new ClassLoaderResourceAccessor(), database);
-            liquibase.update();
-            System.out.println("Migration is completed successfully");
-        }
-        catch (LiquibaseException e) {
-            System.out.println("SQL Exception in migration " + e.getMessage());
-        }
+        migration();
         int number = 0;
 
         do {
@@ -73,6 +61,21 @@ public class Runner {
             }
         }
         while (number >= 1 && number <= 6);
+    }
+
+    public static void migration() {
+        try {
+            Connection connection = ConnectionManager.getConnection();
+            Database database =
+                    DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+            Liquibase liquibase =
+                    new Liquibase("db/changelog/db.changelog.xml", new ClassLoaderResourceAccessor(), database);
+            liquibase.update();
+            System.out.println("Migration is completed successfully");
+        }
+        catch (LiquibaseException e) {
+            System.out.println("SQL Exception in migration " + e.getMessage());
+        }
     }
 
 }

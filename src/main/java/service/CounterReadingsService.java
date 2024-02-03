@@ -18,7 +18,7 @@ public interface CounterReadingsService {
      * совпадает: тип счетчика, месяц и serId с имеющимся в БД (нужно проверить т.к работает некорректно,
      * хотя в классе CounterReadings переопределины методы equals and hashcode на указанных полях)
      */
-    void create(Integer userId, String counterType, Double readings);
+    void create(Long userId, String counterType, Double readings);
 
     /**
      * Метод получения актуальных показаний счетчиков
@@ -26,7 +26,7 @@ public interface CounterReadingsService {
      * @return список актуальныхпоказаний счетчиков за последний месяц
      * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
      */
-    List<CounterReadings> readActualReadings(Integer userId);
+    List<CounterReadings> readActualReadings(Long userId);
 
     /**
      * Метод получения показаний счетчиков за определенный месяц
@@ -37,7 +37,7 @@ public interface CounterReadingsService {
      * @throw CounterReadingsException("There are no counter readings for this month") в случае если показания счечиков
      * за текущий месяц отсутствуют
      */
-    List<CounterReadings> readMonthReadings(Integer userId, int month);
+    List<CounterReadings> readMonthReadings(Long userId, int month);
 
     /**
      * Метод вывода итории подачи показаний сгруппированных по типу
@@ -46,5 +46,5 @@ public interface CounterReadingsService {
      * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
      * @throw CounterReadingsException("There are no counter readings") в случае если показания счечиков отсутствуют
      */
-    Map<String, List<CounterReadings>> readHistoryReadings(Integer userId);
+    List<CounterReadings> readHistoryReadings(Long userId);
 }

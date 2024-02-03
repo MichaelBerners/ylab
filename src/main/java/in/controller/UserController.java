@@ -1,9 +1,11 @@
 package in.controller;
 
+import domain.dao.UserAuditDao;
+import domain.dao.UserDao;
 import domain.exception.UserException;
 import service.UserService;
+import service.impl.UserAuditServiceImpl;
 import service.impl.UserServiceImpl;
-import resources.UserRepository;
 
 import java.util.Scanner;
 
@@ -11,7 +13,8 @@ import java.util.Scanner;
  * класс имитирующий работу контроллера UserController
  */
 public class UserController {
-    static private final UserService userService = new UserServiceImpl(UserRepository.getUserRepository());
+    static private final UserService userService =
+            new UserServiceImpl(UserDao.getInstance(), new UserAuditServiceImpl(UserAuditDao.getInstance()));
 
     /**
      * эндпоинт по созданию нового пользователя

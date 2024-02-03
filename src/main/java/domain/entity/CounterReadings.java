@@ -12,9 +12,10 @@ import lombok.*;
 public class CounterReadings {
 
     @EqualsAndHashCode.Exclude
-    private Integer id;
+    private Long id;
     private String counterType;
-    private Integer userId;
+    private Long userId;
+    private Integer year;
     private Integer month;
     @EqualsAndHashCode.Exclude
     private Double readings;

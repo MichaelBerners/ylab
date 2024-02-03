@@ -14,7 +14,7 @@
             <column name="first_name" type="VARCHAR(255)"/>
             <column name="last_name" type="VARCHAR(255)"/>
             <column name="email" type="VARCHAR(255)">
-                <constraints unique="true"/>
+                <constraints unique="true" uniqueConstraintName="email_unique"/>
             </column>
             <column name="password" type="VARCHAR(255)"/>
         </createTable>
@@ -25,7 +25,7 @@
                 <constraints primaryKey="true" primaryKeyName="counter_types_pk" nullable="true"/>
             </column>
             <column name="counter_type" type="VARCHAR(255)">
-                <constraints unique="true" nullable="true"/>
+                <constraints unique="true" uniqueConstraintName="counter_type_unique" nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -35,13 +35,17 @@
                 <constraints primaryKey="true" primaryKeyName="counters_readings_pk" nullable="true"/>
             </column>
             <column name="counter_types_id" type="BIGINT">
-                <constraints foreignKeyName="counters_readings_counter_types_fk" references="counter_types(id)"/>
+                <constraints foreignKeyName="counters_readings_counter_types_fk" references="counter_types(id)" unique="true" uniqueConstraintName="counters_readings_unique"/>
             </column>
             <column name="user_id" type="BIGINT">
-                <constraints foreignKeyName="counters_readings_users_fk" references="users(id)"/>
+                <constraints foreignKeyName="counters_readings_users_fk" references="users(id)" unique="true" uniqueConstraintName="counters_readings_unique"/>
             </column>
-            <column name="year" type="int"/>
-            <column name="month" type="int"/>
+            <column name="year" type="int">
+                <constraints unique="true" uniqueConstraintName="counters_readings_unique"/>
+            </column>
+            <column name="month" type="int">
+                <constraints unique="true" uniqueConstraintName="counters_readings_unique"/>
+            </column>
             <column name="readings" type="float"/>
         </createTable>
     </changeSet>
