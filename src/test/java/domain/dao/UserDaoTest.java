@@ -66,9 +66,4 @@ class UserDaoTest {
     static void containerStop() {
         postgreSQLContainer.stop();
     }
-
-
-
-
-
 }
