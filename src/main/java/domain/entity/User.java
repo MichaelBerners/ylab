@@ -6,8 +6,6 @@ import lombok.*;
  * класс описывающий пользователя
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
 
     @EqualsAndHashCode.Exclude

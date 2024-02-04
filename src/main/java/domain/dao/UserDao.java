@@ -3,24 +3,18 @@ package domain.dao;
 import domain.entity.User;
 import domain.entity.UserRole;
 import domain.exception.UserException;
+import lombok.Data;
 import util.ConnectionManager;
 
 import java.sql.*;
-
+@Data
 public final class UserDao {
 
-    static UserDao INSTANCE = new UserDao();
-
-    private UserDao() {
-    }
-
-    public static UserDao getInstance() {
-        return INSTANCE;
-    }
+    private final Connection connection;
 
     public User create(String firstName, String lastName, String email, String password) {
         User result = null;
-        try (Connection connection = ConnectionManager.getConnection()) {
+        try (connection) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "insert into counters_monitoring.users (user_role, first_name, last_name, email, password) values (?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS)) {
@@ -52,7 +46,7 @@ public final class UserDao {
 
     public User findUserByEmailAndPassword(String email, String password) {
         User result = new User();
-        try (Connection connection = ConnectionManager.getConnection()) {
+        try (connection) {
             try (PreparedStatement preparedStatement = connection.prepareStatement("select * from counters_monitoring.users where email=? and password=?")) {
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
@@ -76,7 +70,7 @@ public final class UserDao {
 
     public String getUserRoleByUserId(Long id) {
         String result = null;
-        try (Connection connection = ConnectionManager.getConnection()) {
+        try (connection) {
             try (PreparedStatement preparedStatement = connection.prepareStatement("select user_role from users where id =?")) {
                 preparedStatement.setLong(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();

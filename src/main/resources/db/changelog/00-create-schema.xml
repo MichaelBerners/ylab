@@ -5,7 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
         logicalFilePath="db/changelog.xml">
-    <include file="00-create-schema.xml" relativeToChangelogFile="true"/>
-    <include file="01-create-table.xml" relativeToChangelogFile="true"/>
-    <include file="02-insert-table.xml" relativeToChangelogFile="true"/>
+    <changeSet id="00-create-schema-counters_monitoring" author="belonogov">
+        <sql>
+            <![CDATA[CREATE SCHEMA IF NOT EXISTS counters_monitoring;]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

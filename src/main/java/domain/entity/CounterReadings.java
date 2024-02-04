@@ -7,8 +7,6 @@ import lombok.*;
  * Класс описывающий показания счетчика
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CounterReadings {
 
     @EqualsAndHashCode.Exclude

@@ -1,23 +1,18 @@
 package domain.dao;
 
+import lombok.Data;
 import util.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+@Data
 public class CounterTypeDao {
 
-    private static final CounterTypeDao INSTANCE = new CounterTypeDao();
-
-    private CounterTypeDao(){}
-
-    public static CounterTypeDao getInstance() {
-        return INSTANCE;
-    }
+    private final Connection connection;
 
     public void create(String newType) {
-        try (Connection connection = ConnectionManager.getConnection()){
+        try (connection){
             try (PreparedStatement preparedStatement =
                          connection.prepareStatement("insert into counter_types (countr_type) values (?)")) {
                 preparedStatement.setString(1, newType);

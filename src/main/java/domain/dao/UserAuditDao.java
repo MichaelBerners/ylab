@@ -1,23 +1,18 @@
 package domain.dao;
 
+import lombok.Data;
 import util.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
+@Data
 public class UserAuditDao {
-    private static final UserAuditDao INSTANCE = new UserAuditDao();
-
-    private UserAuditDao(){}
-
-    public static UserAuditDao getInstance() {
-        return INSTANCE;
-    }
+    private final Connection connection;
 
     public void create(Long userId, String action) {
-        try(Connection connection = ConnectionManager.getConnection()) {
+        try(connection) {
             try (PreparedStatement preparedStatement =
                          connection.prepareStatement("insert into counters_monitoring.users_audit (user_id, action, date) values (?, ?, ?)")) {
                 preparedStatement.setLong(1, userId);

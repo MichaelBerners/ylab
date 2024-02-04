@@ -6,7 +6,9 @@ import domain.exception.UserException;
 import service.UserService;
 import service.impl.UserAuditServiceImpl;
 import service.impl.UserServiceImpl;
+import util.ConnectionManager;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 /**
@@ -14,7 +16,9 @@ import java.util.Scanner;
  */
 public class UserController {
     static private final UserService userService =
-            new UserServiceImpl(UserDao.getInstance(), new UserAuditServiceImpl(UserAuditDao.getInstance()));
+            new UserServiceImpl(
+                    new UserDao(ConnectionManager.getConnection()),
+                    new UserAuditServiceImpl(new UserAuditDao(ConnectionManager.getConnection())));
 
     /**
      * эндпоинт по созданию нового пользователя
@@ -22,7 +26,7 @@ public class UserController {
     public static void createNewUser() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ведите имя пользователя");
-        final String lastName = scanner.nextLine();
+        final String lastName = scanner.nextLine();;
         if(lastName.length() == 0){
             throw new UserException("Имя не должно быть пустым");
         }

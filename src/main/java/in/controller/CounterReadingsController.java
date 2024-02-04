@@ -3,13 +3,17 @@ package in.controller;
 import domain.dao.CounterReadingsDao;
 import domain.dao.UserAuditDao;
 import domain.entity.CounterReadings;
+import domain.exception.CounterReadingsException;
+import domain.exception.UserException;
 import service.CounterReadingsService;
 import service.impl.CounterReadingsServiceImpl;
 import resources.CounterReadingsRepository;
 import resources.UserRepository;
 import service.impl.UserAuditServiceImpl;
+import util.ConnectionManager;
 
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -21,7 +25,9 @@ import java.util.Scanner;
 public class CounterReadingsController {
 
     private final static CounterReadingsService counterReadingsService =
-            new CounterReadingsServiceImpl(new UserAuditServiceImpl(UserAuditDao.getInstance()), CounterReadingsDao.getInstance());
+            new CounterReadingsServiceImpl(
+                    new UserAuditServiceImpl(new UserAuditDao(ConnectionManager.getConnection())),
+                    new CounterReadingsDao(ConnectionManager.getConnection()));
 
     /**
      * эндпоинт по созданию нового показания счетчика
@@ -32,7 +38,7 @@ public class CounterReadingsController {
         final Long userId = scanner.nextLong();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
         System.out.println("Введите тип счетчика");
-        final String counterTye = scanner.next();
+        final String counterTye = scanner.nextLine();
         scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
         System.out.println("Ведите показания");
         final Double readings = scanner.nextDouble();

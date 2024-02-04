@@ -43,7 +43,6 @@ public class CounterReadingsServiceImpl implements CounterReadingsService {
     public List<CounterReadings> readActualReadings(Long userId) {
         List<CounterReadings> result = counterReadingsDao.findActualCounterReadingsByUserId(userId);
         userAuditService.create(userId, "read actual counter readings");
-        System.out.println();
 
         return result;
     }

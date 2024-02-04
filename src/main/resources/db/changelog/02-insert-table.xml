@@ -7,13 +7,101 @@
         logicalFilePath="db/changelog.xml">
     <changeSet id="01-insert-table-counter_types" author="belonogov">
         <insert schemaName="counters_monitoring" tableName="counter_types">
-            <column name="counter_type" value="HEATING"></column>
+            <column name="counter_type" value="HEATING"/>
         </insert>
         <insert schemaName="counters_monitoring" tableName="counter_types">
-            <column name="counter_type" value="HOT_WATER"></column>
+            <column name="counter_type" value="HOT_WATER"/>
         </insert>
         <insert schemaName="counters_monitoring" tableName="counter_types">
-            <column name="counter_type" value="COLD_WATER"></column>
+            <column name="counter_type" value="COLD_WATER"/>
+        </insert>
+    </changeSet>
+    <changeSet id="01-insert-table-user" author="belonogov">
+        <insert schemaName="counters_monitoring" tableName="users">
+            <column name="user_role" value="CLIENT"/>
+            <column name="first_name" value="Kirill"/>
+            <column name="last_name" value="Kirilov"/>
+            <column name="email" value="kirilov@email.ru"/>
+            <column name="password" value="kirpass"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="users">
+            <column name="user_role" value="CLIENT"/>
+            <column name="first_name" value="Alexandr"/>
+            <column name="last_name" value="Sergeev"/>
+            <column name="email" value="sergeev@email.ru"/>
+            <column name="password" value="sergass"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="users">
+            <column name="user_role" value="CLIENT"/>
+            <column name="first_name" value="Ivan"/>
+            <column name="last_name" value="Ivanov"/>
+            <column name="email" value="ivanov@email.ru"/>
+            <column name="password" value="ivanpass"/>
+        </insert>
+    </changeSet>
+    <changeSet id="01-insert-table-counters_readings" author="belonogov">
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="1"/>
+            <column name="user_id" value="1"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="123.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="2"/>
+            <column name="user_id" value="1"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="223.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="3"/>
+            <column name="user_id" value="1"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="323.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="1"/>
+            <column name="user_id" value="2"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="123.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="2"/>
+            <column name="user_id" value="2"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="223.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="3"/>
+            <column name="user_id" value="2"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="323.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="1"/>
+            <column name="user_id" value="3"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="323.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="2"/>
+            <column name="user_id" value="3"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="323.7"/>
+        </insert>
+        <insert schemaName="counters_monitoring" tableName="counters_readings">
+            <column name="counter_types_id" value="3"/>
+            <column name="user_id" value="3"/>
+            <column name="year" value="2023"/>
+            <column name="month" value="12"/>
+            <column name="readings" value="323.7"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
