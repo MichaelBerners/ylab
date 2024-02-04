@@ -3,20 +3,15 @@ package in.controller;
 import domain.dao.CounterReadingsDao;
 import domain.dao.UserAuditDao;
 import domain.entity.CounterReadings;
-import domain.exception.CounterReadingsException;
-import domain.exception.UserException;
 import service.CounterReadingsService;
 import service.impl.CounterReadingsServiceImpl;
-import resources.CounterReadingsRepository;
-import resources.UserRepository;
 import service.impl.UserAuditServiceImpl;
 import util.ConnectionManager;
 
 
-import java.sql.Connection;
+
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Scanner;
 
 /**

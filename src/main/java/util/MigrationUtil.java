@@ -9,6 +9,9 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 
 import java.sql.Connection;
 
+/**
+ * класс инкапсулирующий создание миграций бд
+ */
 public class MigrationUtil {
 
     private static MigrationUtil INSTANCE = new MigrationUtil();
@@ -19,6 +22,10 @@ public class MigrationUtil {
         return INSTANCE;
     }
 
+    /**
+     * метод создания миграций
+     * @param connection соединение с бд
+     */
     public void setMigration(Connection connection) {
         try {
             Database database =

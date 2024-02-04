@@ -1,7 +1,5 @@
 package service;
 
-import domain.entity.User;
-import domain.entity.UserRole;
 
 public interface UserService {
 

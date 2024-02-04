@@ -12,6 +12,14 @@ public final class UserDao {
 
     private final Connection connection;
 
+    /**
+     * метод создания записи в таблице users
+     * @param firstName имя пользователя
+     * @param lastName фамилия пользователя
+     * @param email email
+     * @param password пароль
+     * @return объект добавленного пользователя
+     */
     public User create(String firstName, String lastName, String email, String password) {
         User result = null;
         try (connection) {
@@ -44,6 +52,13 @@ public final class UserDao {
         } else throw new UserException("user creation error!");
     }
 
+
+    /**
+     * поиск записи в таблице users (по email и password)
+     * @param email email
+     * @param password пароль
+     * @return объект найденного пользователя
+     */
     public User findUserByEmailAndPassword(String email, String password) {
         User result = new User();
         try (connection) {
@@ -68,10 +83,15 @@ public final class UserDao {
         return result;
     }
 
+    /**
+     * возвращает роль пользователя (ADMINISTRATOR, CLIENT)
+     * @param id id пользователя
+     * @return роль пользователя
+     */
     public String getUserRoleByUserId(Long id) {
         String result = null;
         try (connection) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement("select user_role from users where id =?")) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement("select user_role from counters_monitoring.users where id =?")) {
                 preparedStatement.setLong(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 resultSet.next();

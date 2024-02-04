@@ -11,6 +11,11 @@ import java.sql.Timestamp;
 public class UserAuditDao {
     private final Connection connection;
 
+    /**
+     * метод создания новой записи в таблице users_audit
+     * @param userId id пользователя
+     * @param action действие пользователя
+     */
     public void create(Long userId, String action) {
         try(connection) {
             try (PreparedStatement preparedStatement =

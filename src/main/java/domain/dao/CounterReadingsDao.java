@@ -13,11 +13,21 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * класс описывающий взаимодействие с бд
+ */
 @Data
 public class CounterReadingsDao {
 
     private final Connection connection;
 
+    /**
+     * метод создания записи в таблице counter_readings
+     * @param userId id пользователя
+     * @param counterType типп счетчика
+     * @param readings показания
+     */
     public void create(Long userId, String counterType, Double readings) {
         try (connection) {
             try (PreparedStatement findCounterTypeByType =
@@ -47,6 +57,11 @@ public class CounterReadingsDao {
         }
     }
 
+    /**
+     * метод возвращающий все записи из таблицы counter_readings (для определенного пользователя)
+     * @param userId id пользователя
+     * @return список актуальных показаний счетчика
+     */
     public List<CounterReadings> findActualCounterReadingsByUserId(Long userId) {
         List<CounterReadings> result = new ArrayList<>();
         try (Connection connection = ConnectionManager.getConnection()){
@@ -93,6 +108,13 @@ public class CounterReadingsDao {
         return result;
     }
 
+    /**
+     * метод возвращающий все записи из таблицы counter_readings (для определенного пользователя и даты)
+     * @param userId
+     * @param year
+     * @param month
+     * @return список показаний счетчика за определенный год и месяц
+     */
     public List<CounterReadings> findCounterReadingsByUserIdAndYearMonth(Long userId, int year, int month) {
         List<CounterReadings> result = new ArrayList<>();
         try (Connection connection = ConnectionManager.getConnection()){
@@ -127,6 +149,11 @@ public class CounterReadingsDao {
         return result;
     }
 
+    /**
+     * метод возвращающий все записи из таблицы counter_readings (для определенного пользователя)
+     * @param userId id пользователя
+     * @return список всех показаний счетчика
+     */
     public List<CounterReadings> findAllByUserId(Long userId) {
         List<CounterReadings> result = new ArrayList<>();
         try (Connection connection= ConnectionManager.getConnection()){

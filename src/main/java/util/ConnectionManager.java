@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Класс инкапсулирующий подключение к БД
+ */
 public class ConnectionManager {
     private static final String URL_KEY = "db.url";
     private static final String USER_NAME_KEY = "db.userName";
@@ -11,6 +14,10 @@ public class ConnectionManager {
 
     private ConnectionManager(){};
 
+    /**
+     * метод получения соединения к БД
+     * @return соединение к бд
+     */
     public static Connection getConnection() {
         try {
             String s = PropertiesUtil.get(URL_KEY);

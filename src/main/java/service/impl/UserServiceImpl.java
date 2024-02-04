@@ -2,13 +2,10 @@ package service.impl;
 
 import domain.dao.UserDao;
 import domain.entity.User;
-import domain.entity.UserRole;
-import domain.exception.UserException;
+
 import lombok.Data;
 import service.UserAuditService;
 import service.UserService;
-import resources.AuditRepository;
-import resources.UserRepository;
 
 import java.util.Map;
 

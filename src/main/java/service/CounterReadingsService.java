@@ -3,7 +3,6 @@ package service;
 import domain.entity.CounterReadings;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CounterReadingsService {
 
@@ -15,15 +14,14 @@ public interface CounterReadingsService {
      * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
      * @throw CounterReadingsException("This is counter type not found") - тип счетчика не найден
      * @throw CounterReadingsException("The testimony can be submitted once a month!") в случае если у этого показания
-     * совпадает: тип счетчика, месяц и serId с имеющимся в БД (нужно проверить т.к работает некорректно,
-     * хотя в классе CounterReadings переопределины методы equals and hashcode на указанных полях)
+     * совпадает: тип счетчика, месяц и serId с имеющимся в БД
      */
     void create(Long userId, String counterType, Double readings);
 
     /**
      * Метод получения актуальных показаний счетчиков
      * @param userId лицевой счет пользователя
-     * @return список актуальныхпоказаний счетчиков за последний месяц
+     * @return список актуальных показаний счетчиков за последний месяц
      * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
      */
     List<CounterReadings> readActualReadings(Long userId);
@@ -31,7 +29,8 @@ public interface CounterReadingsService {
     /**
      * Метод получения показаний счетчиков за определенный месяц
      * @param userId лицевой счет пользователя
-     * @param month - месяц за который ищутся показания
+     * @param month год за который ищутся показания
+     * @param month месяц за который ищутся показания
      * @return список показаний пользователя за конкретный месяц
      * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
      * @throw CounterReadingsException("There are no counter readings for this month") в случае если показания счечиков
@@ -42,7 +41,7 @@ public interface CounterReadingsService {
     /**
      * Метод вывода итории подачи показаний сгруппированных по типу
      * @param userId лицевой счет пользователя
-     * @return все показания пользователя сгруппированные по типу
+     * @return все показания пользователя
      * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
      * @throw CounterReadingsException("There are no counter readings") в случае если показания счечиков отсутствуют
      */
