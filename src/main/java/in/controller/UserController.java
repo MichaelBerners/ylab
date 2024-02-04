@@ -49,12 +49,12 @@ public class UserController {
     public static void authorizationUser() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ведите email пользователя");
-        final String email = scanner.nextLine();
+        final String email = scanner.next();
         if(email.length() == 0){
             throw new UserException("email не должен быть пустым");
         }
         System.out.println("Ведите password пользователя");
-        final String password = scanner.nextLine();
+        final String password = scanner.next();
         if(password.length() == 0){
             throw new UserException("password не должен быть пустым");
         }

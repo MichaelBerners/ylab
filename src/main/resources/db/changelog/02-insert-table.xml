@@ -5,14 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
         logicalFilePath="db/changelog.xml">
-    <changeSet id="01-insert-table-users" author="belonogov">
-        <insert tableName="counter_types">
+    <changeSet id="01-insert-table-counter_types" author="belonogov">
+        <insert schemaName="counters_monitoring" tableName="counter_types">
             <column name="counter_type" value="HEATING"></column>
         </insert>
-        <insert tableName="counter_types">
+        <insert schemaName="counters_monitoring" tableName="counter_types">
             <column name="counter_type" value="HOT_WATER"></column>
         </insert>
-        <insert tableName="counter_types">
+        <insert schemaName="counters_monitoring" tableName="counter_types">
             <column name="counter_type" value="COLD_WATER"></column>
         </insert>
     </changeSet>

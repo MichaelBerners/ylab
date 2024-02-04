@@ -14,7 +14,7 @@ import java.util.List;
 public class CounterReadingsServiceImpl implements CounterReadingsService {
 
     private final UserAuditService userAuditService;
-    CounterReadingsDao counterReadingsDao;
+    private final CounterReadingsDao counterReadingsDao;
 
     /**
      * Метод создания нового показания счетчика
@@ -43,6 +43,7 @@ public class CounterReadingsServiceImpl implements CounterReadingsService {
     public List<CounterReadings> readActualReadings(Long userId) {
         List<CounterReadings> result = counterReadingsDao.findActualCounterReadingsByUserId(userId);
         userAuditService.create(userId, "read actual counter readings");
+        System.out.println();
 
         return result;
     }
@@ -57,8 +58,8 @@ public class CounterReadingsServiceImpl implements CounterReadingsService {
      * за текущий месяц отсутствуют
      */
     @Override
-    public List<CounterReadings> readMonthReadings(Long userId, int month) {
-        List<CounterReadings> result = counterReadingsDao.findCounterReadingsByUserIdAndMonth(userId, month);
+    public List<CounterReadings> readYearMonthReadings(Long userId, int year, int month) {
+        List<CounterReadings> result = counterReadingsDao.findCounterReadingsByUserIdAndYearMonth(userId, year, month);
         userAuditService.create(userId, "read the readings for the month : " + month);
 
         return result;

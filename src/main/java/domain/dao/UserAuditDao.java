@@ -19,7 +19,7 @@ public class UserAuditDao {
     public void create(Long userId, String action) {
         try(Connection connection = ConnectionManager.getConnection()) {
             try (PreparedStatement preparedStatement =
-                         connection.prepareStatement("inset into users_audit (user_id, action, date) values (?, ?, ?)")) {
+                         connection.prepareStatement("insert into counters_monitoring.users_audit (user_id, action, date) values (?, ?, ?)")) {
                 preparedStatement.setLong(1, userId);
                 preparedStatement.setString(2, action);
                 Timestamp date = new Timestamp(System.currentTimeMillis());

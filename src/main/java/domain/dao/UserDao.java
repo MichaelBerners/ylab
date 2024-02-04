@@ -14,8 +14,6 @@ public final class UserDao {
     private UserDao() {
     }
 
-    ;
-
     public static UserDao getInstance() {
         return INSTANCE;
     }
@@ -24,7 +22,7 @@ public final class UserDao {
         User result = null;
         try (Connection connection = ConnectionManager.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into users (user_role, first_name, last_name, email, password) values (?, ?, ?, ?, ?)",
+                    "insert into counters_monitoring.users (user_role, first_name, last_name, email, password) values (?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS)) {
                 UserRole userRole = UserRole.CLIENT;
                 preparedStatement.setString(1, userRole.name());
@@ -53,14 +51,13 @@ public final class UserDao {
     }
 
     public User findUserByEmailAndPassword(String email, String password) {
-        User result = null;
+        User result = new User();
         try (Connection connection = ConnectionManager.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement("select * from users where email=? and password=?")) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement("select * from counters_monitoring.users where email=? and password=?")) {
                 preparedStatement.setString(1, email);
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 resultSet.next();
-
                 result.setId(resultSet.getLong("id"));
                 UserRole userRole = resultSet.getString("user_role").equals("CLIENT")
                         ? UserRole.CLIENT
@@ -74,9 +71,7 @@ public final class UserDao {
         } catch (SQLException e) {
             System.out.println("SQL Exception : " + e.getMessage());
         }
-        if (result != null) {
-            return result;
-        } else throw new UserException("User not found");
+        return result;
     }
 
     public String getUserRoleByUserId(Long id) {

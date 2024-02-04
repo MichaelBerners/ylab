@@ -6,59 +6,90 @@
          https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd"
         logicalFilePath="db/changelog.xml">
     <changeSet id="01-create-table-users" author="belonogov">
-        <createTable tableName="users">
+        <createTable schemaName="counters_monitoring" tableName="users">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="users_pk" nullable="true"/>
+                <constraints primaryKey="true" primaryKeyName="users_pk" nullable="false"/>
             </column>
-            <column name="user_role" type="VARCHAR(255)"/>
-            <column name="first_name" type="VARCHAR(255)"/>
-            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="user_role" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="email" type="VARCHAR(255)">
-                <constraints unique="true" uniqueConstraintName="email_unique"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="email_unique"/>
             </column>
-            <column name="password" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet id="01-create-table-counter_types" author="belonogov">
-        <createTable tableName="counter_types">
+        <createTable schemaName="counters_monitoring" tableName="counter_types">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="counter_types_pk" nullable="true"/>
+                <constraints primaryKey="true" primaryKeyName="counter_types_pk" nullable="false"/>
             </column>
             <column name="counter_type" type="VARCHAR(255)">
-                <constraints unique="true" uniqueConstraintName="counter_type_unique" nullable="true"/>
+                <constraints unique="true" uniqueConstraintName="counter_type_unique" nullable="false"/>
             </column>
         </createTable>
     </changeSet>
     <changeSet id="01-create-table-counters_readings" author="belonogov">
-        <createTable tableName="counters_readings">
+        <createTable schemaName="counters_monitoring" tableName="counters_readings">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="counters_readings_pk" nullable="true"/>
+                <constraints primaryKey="true" primaryKeyName="counters_readings_pk" nullable="false"/>
             </column>
             <column name="counter_types_id" type="BIGINT">
-                <constraints foreignKeyName="counters_readings_counter_types_fk" references="counter_types(id)" unique="true" uniqueConstraintName="counters_readings_unique"/>
+                <constraints
+                        foreignKeyName="counters_readings_counter_types_fk"
+                        referencedColumnNames="id" referencedTableName="counter_types"
+                        referencedTableSchemaName="counters_monitoring"
+                        unique="true" uniqueConstraintName="counters_readings_unique"
+                        nullable="false"
+                />
             </column>
             <column name="user_id" type="BIGINT">
-                <constraints foreignKeyName="counters_readings_users_fk" references="users(id)" unique="true" uniqueConstraintName="counters_readings_unique"/>
+                <constraints
+                        foreignKeyName="counters_readings_users_fk"
+                        referencedColumnNames="id"
+                        referencedTableName="users"
+                        referencedTableSchemaName="counters_monitoring"
+                        unique="true" uniqueConstraintName="counters_readings_unique"
+                        nullable="false"
+                />
             </column>
             <column name="year" type="int">
-                <constraints unique="true" uniqueConstraintName="counters_readings_unique"/>
+                <constraints unique="true" uniqueConstraintName="counters_readings_unique" nullable="false"/>
             </column>
             <column name="month" type="int">
-                <constraints unique="true" uniqueConstraintName="counters_readings_unique"/>
+                <constraints unique="true" uniqueConstraintName="counters_readings_unique" nullable="false"/>
             </column>
             <column name="readings" type="float"/>
         </createTable>
     </changeSet>
     <changeSet id="01-create-table-users_audit" author="belonogov">
-        <createTable tableName="users_audit">
+        <createTable schemaName="counters_monitoring" tableName="users_audit">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="users_audit_pk" nullable="true"/>
+                <constraints primaryKey="true" primaryKeyName="users_audit_pk" nullable="false"/>
             </column>
             <column name="user_id" type="BIGINT">
-                <constraints foreignKeyName="users_audit_users_fk" references="users(id)"/>
+                <constraints
+                        foreignKeyName="users_audit_users_fk"
+                        referencedColumnNames="id"
+                        referencedTableName="users"
+                        referencedTableSchemaName="counters_monitoring"
+                        nullable="false"
+                />
             </column>
-            <column name="action" type="VARCHAR(255)"/>
-            <column name="date" type="timestamp"/>
+            <column name="action" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+            <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

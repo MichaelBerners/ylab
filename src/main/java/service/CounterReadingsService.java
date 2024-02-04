@@ -37,7 +37,7 @@ public interface CounterReadingsService {
      * @throw CounterReadingsException("There are no counter readings for this month") в случае если показания счечиков
      * за текущий месяц отсутствуют
      */
-    List<CounterReadings> readMonthReadings(Long userId, int month);
+    List<CounterReadings> readYearMonthReadings(Long userId, int year, int month);
 
     /**
      * Метод вывода итории подачи показаний сгруппированных по типу

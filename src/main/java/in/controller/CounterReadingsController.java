@@ -1,5 +1,6 @@
 package in.controller;
 
+import domain.dao.CounterReadingsDao;
 import domain.dao.UserAuditDao;
 import domain.entity.CounterReadings;
 import service.CounterReadingsService;
@@ -10,6 +11,7 @@ import service.impl.UserAuditServiceImpl;
 
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,21 +21,22 @@ import java.util.Scanner;
 public class CounterReadingsController {
 
     private final static CounterReadingsService counterReadingsService =
-            new CounterReadingsServiceImpl(new UserAuditServiceImpl(UserAuditDao.getInstance()));
+            new CounterReadingsServiceImpl(new UserAuditServiceImpl(UserAuditDao.getInstance()), CounterReadingsDao.getInstance());
 
     /**
      * эндпоинт по созданию нового показания счетчика
      */
     public static void createNewCounterReadings() {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in).useLocale(Locale.US);
         System.out.println("Ведите номер лицевого счета");
-        final Long userId = scanner.nextLong(2);
-        System.out.println();
-        System.out.println("lol");
+        final Long userId = scanner.nextLong();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
         System.out.println("Введите тип счетчика");
-        final String counterTye = scanner.nextLine();
+        final String counterTye = scanner.next();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
         System.out.println("Ведите показания");
         final Double readings = scanner.nextDouble();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
         counterReadingsService.create(userId, counterTye, readings);
     }
 
@@ -55,9 +58,11 @@ public class CounterReadingsController {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите номер лицевого счета");
         Long userId = scanner.nextLong();
-        System.out.println("Введите номер месяца");
+        System.out.println("Введите год");
+        Integer year = scanner.nextInt();
+        System.out.println("Введите номер месяца 1-12");
         Integer month = scanner.nextInt();
-        List<CounterReadings> monthReadings = counterReadingsService.readMonthReadings(userId, month);
+        List<CounterReadings> monthReadings = counterReadingsService.readYearMonthReadings(userId, year, month);
         monthReadings.forEach(System.out::println);
     }
 

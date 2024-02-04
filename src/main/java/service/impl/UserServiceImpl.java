@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void authorization(String email, String password) {
         User findUser = userDao.findUserByEmailAndPassword(email, password);
+        System.out.println();
         System.out.println("Authorization is successful!!!");
         userAuditService.create(findUser.getId(), "authorization");
     }
