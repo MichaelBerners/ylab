@@ -1,6 +1,7 @@
 package service.impl;
 
 import domain.dao.UserAuditDao;
+import domain.dao.impl.UserAuditDaoImpl;
 import lombok.Data;
 import service.UserAuditService;
 

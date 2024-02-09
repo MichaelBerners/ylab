@@ -18,7 +18,7 @@ public class MigrationUtil {
 
     private MigrationUtil(){}
 
-    public static MigrationUtil getInstance() {
+    public static final MigrationUtil getInstance() {
         return INSTANCE;
     }
 

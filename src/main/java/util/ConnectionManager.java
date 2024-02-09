@@ -23,7 +23,6 @@ public class ConnectionManager {
             String s = PropertiesUtil.get(URL_KEY);
             String s1 = PropertiesUtil.get(USER_NAME_KEY);
             String s2 = PropertiesUtil.get(PASSWORD_KEY);
-            System.out.println();
             Connection connection = DriverManager.getConnection(s, s1, s2);
 
             return connection;

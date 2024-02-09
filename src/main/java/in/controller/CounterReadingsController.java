@@ -1,7 +1,7 @@
 package in.controller;
 
-import domain.dao.CounterReadingsDao;
-import domain.dao.UserAuditDao;
+import domain.dao.impl.CounterReadingsDaoImpl;
+import domain.dao.impl.UserAuditDaoImpl;
 import domain.entity.CounterReadings;
 import service.CounterReadingsService;
 import service.impl.CounterReadingsServiceImpl;
@@ -21,8 +21,8 @@ public class CounterReadingsController {
 
     private final static CounterReadingsService counterReadingsService =
             new CounterReadingsServiceImpl(
-                    new UserAuditServiceImpl(new UserAuditDao(ConnectionManager.getConnection())),
-                    new CounterReadingsDao(ConnectionManager.getConnection()));
+                    new UserAuditServiceImpl(new UserAuditDaoImpl(ConnectionManager.getConnection())),
+                    new CounterReadingsDaoImpl(ConnectionManager.getConnection()));
 
     /**
      * эндпоинт по созданию нового показания счетчика

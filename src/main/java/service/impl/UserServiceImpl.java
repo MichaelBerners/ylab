@@ -3,11 +3,10 @@ package service.impl;
 import domain.dao.UserDao;
 import domain.entity.User;
 
+import domain.exception.UserException;
 import lombok.Data;
 import service.UserAuditService;
 import service.UserService;
-
-import java.util.Map;
 
 
 @Data
@@ -25,7 +24,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void create(String firstName, String lastName, String email, String password) {
-        User createdUser = userDao.create(firstName, lastName, email, password);
+        User createdUser = userDao.create(firstName, lastName, email, password)
+                .orElseThrow(() -> new UserException("the user has not been created"));
         userAuditService.create(createdUser.getId(), "creating a user");
         System.out.println("registration was successful");
     }
@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void authorization(String email, String password) {
-        User findUser = userDao.findUserByEmailAndPassword(email, password);
-        System.out.println();
+        User findUser = userDao.findUserByEmailAndPassword(email, password).orElseThrow(() -> new UserException("exc"));
         System.out.println("Authorization is successful!!!");
         userAuditService.create(findUser.getId(), "authorization");
     }

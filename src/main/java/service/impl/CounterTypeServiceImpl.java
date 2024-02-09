@@ -1,6 +1,7 @@
 package service.impl;
 
 import domain.dao.CounterTypeDao;
+import domain.dao.impl.CounterTypeDaoImpl;
 import lombok.Data;
 import service.CounterTypeService;
 

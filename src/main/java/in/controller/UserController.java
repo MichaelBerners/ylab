@@ -1,14 +1,13 @@
 package in.controller;
 
-import domain.dao.UserAuditDao;
-import domain.dao.UserDao;
+import domain.dao.impl.UserAuditDaoImpl;
+import domain.dao.impl.UserDaoImpl;
 import domain.exception.UserException;
 import service.UserService;
 import service.impl.UserAuditServiceImpl;
 import service.impl.UserServiceImpl;
 import util.ConnectionManager;
 
-import java.sql.Connection;
 import java.util.Scanner;
 
 /**
@@ -17,8 +16,8 @@ import java.util.Scanner;
 public class UserController {
     static private final UserService userService =
             new UserServiceImpl(
-                    new UserDao(ConnectionManager.getConnection()),
-                    new UserAuditServiceImpl(new UserAuditDao(ConnectionManager.getConnection())));
+                    new UserDaoImpl(ConnectionManager.getConnection()),
+                    new UserAuditServiceImpl(new UserAuditDaoImpl(ConnectionManager.getConnection())));
 
     /**
      * эндпоинт по созданию нового пользователя
