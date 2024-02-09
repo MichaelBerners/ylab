@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void create(String firstName, String lastName, String email, String password) {
-        User createdUser = userDao.create(firstName, lastName, email, password)
+        User createdUser = userDao.create(firstName)
                 .orElseThrow(() -> new UserException("the user has not been created"));
         userAuditService.create(createdUser.getId(), "creating a user");
         System.out.println("registration was successful");

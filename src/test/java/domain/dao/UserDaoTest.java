@@ -49,7 +49,7 @@ class UserDaoTest {
         String lastName = "Popov";
         String email = "new@email.com";
         String password = "new_password";
-        User user = userDao.create(firstName, lastName, email, password).orElseThrow(() -> new UserException("Exc"));
+        User user = userDao.create(firstName).orElseThrow(() -> new UserException("Exc"));
         Assertions.assertThat(user.getFirstName()).isEqualTo(firstName);
         Assertions.assertThat(user.getLastName()).isEqualTo(lastName);
         Assertions.assertThat(user.getEmail()).isEqualTo(email);

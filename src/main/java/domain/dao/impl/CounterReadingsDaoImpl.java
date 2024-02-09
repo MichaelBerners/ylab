@@ -1,10 +1,11 @@
 package domain.dao.impl;
 
 import domain.dao.CounterReadingsDao;
-import domain.entity.CounterReadings;
+import domain.dto.request.CounterReadingCreateRequest;
+import domain.dto.request.CounterReadingYearMonthRequest;
+import domain.entity.CounterReading;
 import domain.exception.CounterReadingsException;
 import lombok.Data;
-import util.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,18 +26,16 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
     /**
      * метод создания записи в таблице counter_readings
      *
-     * @param userId      id пользователя
-     * @param counterType типп счетчика
-     * @param readings    показания
+     * @param counterReadingCreateRequest
      */
     @Override
-    public void create(Long userId, String counterType, Double readings) {
+    public void create(CounterReadingCreateRequest counterReadingCreateRequest) {
         try (PreparedStatement findCounterTypeByType =
                      connection.prepareStatement("select id from counters_monitoring.counter_types where counter_type=?");
              PreparedStatement insertCounterReadings
                      = connection.prepareStatement("insert into counters_monitoring.counters_readings " +
                      "(counter_types_id, user_id, year, month, readings) values (?, ?, ?, ?, ?)")) {
-            findCounterTypeByType.setString(1, counterType);
+            findCounterTypeByType.setString(1, counterReadingCreateRequest.getCounterType());
 
             ResultSet counterTypeResultSet = findCounterTypeByType.executeQuery();
             if (counterTypeResultSet.next()) {
@@ -45,10 +44,10 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
                 int year = localDate.getYear();
                 int month = localDate.getMonthValue();
                 insertCounterReadings.setLong(1, counterTypeId);
-                insertCounterReadings.setLong(2, userId);
+                insertCounterReadings.setLong(2, counterReadingCreateRequest.getUserId());
                 insertCounterReadings.setInt(3, year);
                 insertCounterReadings.setInt(4, month);
-                insertCounterReadings.setDouble(5, readings);
+                insertCounterReadings.setDouble(5, counterReadingCreateRequest.getReadings());
                 insertCounterReadings.executeUpdate();
             } else throw new CounterReadingsException("Invalid counter type");
         } catch (SQLException e) {
@@ -63,8 +62,8 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
      * @return список актуальных показаний счетчика
      */
     @Override
-    public List<CounterReadings> findActualCounterReadingsByUserId(Long userId) {
-        List<CounterReadings> result = new ArrayList<>();
+    public List<CounterReading> findActualCounterReadingsByUserId(Long userId) {
+        List<CounterReading> result = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "(select CR.id, counter_type, user_id, year, month, readings\n" +
@@ -89,7 +88,7 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
             preparedStatement.setLong(3, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                CounterReadings counterReadings = new CounterReadings();
+                CounterReading counterReadings = new CounterReading();
                 counterReadings.setId(resultSet.getLong("id"));
                 counterReadings.setCounterType(resultSet.getString("counter_type"));
                 counterReadings.setUserId(resultSet.getLong("user_id"));
@@ -109,14 +108,11 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
     /**
      * метод возвращающий все записи из таблицы counter_readings (для определенного пользователя и даты)
      *
-     * @param userId
-     * @param year
-     * @param month
-     * @return список показаний счетчика за определенный год и месяц
+     * @param counterReadingYearMonthRequest@return список показаний счетчика за определенный год и месяц
      */
     @Override
-    public List<CounterReadings> findCounterReadingsByUserIdAndYearMonth(Long userId, int year, int month) {
-        List<CounterReadings> result = new ArrayList<>();
+    public List<CounterReading> findCounterReadingsByUserIdAndYearMonth(CounterReadingYearMonthRequest counterReadingYearMonthRequest) {
+        List<CounterReading> result = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "select CR.id, counter_type, user_id, year, month, readings\n" +
                         "from counters_monitoring.counters_readings as CR\n" +
@@ -124,12 +120,12 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
                         "where user_id = ?\n" +
                         "  AND year = ?\n" +
                         "  AND month = ?")) {
-            preparedStatement.setLong(1, userId);
-            preparedStatement.setInt(2, year);
-            preparedStatement.setInt(3, month);
+            preparedStatement.setLong(1, counterReadingYearMonthRequest.getUserId());
+            preparedStatement.setInt(2, counterReadingYearMonthRequest.getYear());
+            preparedStatement.setInt(3, counterReadingYearMonthRequest.getMonth());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                CounterReadings counterReadings = new CounterReadings();
+                CounterReading counterReadings = new CounterReading();
                 counterReadings.setId(resultSet.getLong("id"));
                 counterReadings.setCounterType(resultSet.getString("counter_type"));
                 counterReadings.setUserId(resultSet.getLong("user_id"));
@@ -153,8 +149,8 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
      * @return список всех показаний счетчика
      */
     @Override
-    public List<CounterReadings> findAllByUserId(Long userId) {
-        List<CounterReadings> result = new ArrayList<>();
+    public List<CounterReading> findAllByUserId(Long userId) {
+        List<CounterReading> result = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "select CR.id, counter_type, user_id, year, month, readings\n" +
                         "from counters_monitoring.counters_readings as CR\n" +
@@ -163,7 +159,7 @@ public class CounterReadingsDaoImpl implements CounterReadingsDao {
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                CounterReadings counterReadings = new CounterReadings();
+                CounterReading counterReadings = new CounterReading();
                 counterReadings.setId(resultSet.getLong("id"));
                 counterReadings.setCounterType(resultSet.getString("counter_type"));//!!!
                 counterReadings.setUserId(resultSet.getLong("user_id"));

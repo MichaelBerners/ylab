@@ -1,6 +1,7 @@
 package domain.dao.impl;
 
 import domain.dao.UserDao;
+import domain.dto.request.UserCreateRequest;
 import domain.entity.User;
 import domain.entity.UserRole;
 import domain.exception.UserException;
@@ -17,14 +18,14 @@ public final class UserDaoImpl implements UserDao {
     /**
      * метод создания записи в таблице users
      *
-     * @param firstName имя пользователя
-     * @param lastName  фамилия пользователя
-     * @param email     email
-     * @param password  пароль
-     * @return объект добавленного пользователя
+     * @param userCreateRequest@return объект добавленного пользователя
      */
     @Override
-    public Optional<User> create(String firstName, String lastName, String email, String password) {
+    public Optional<User> create(UserCreateRequest userCreateRequest) {
+        String firstName = userCreateRequest.getFirstName();
+        String lastName = userCreateRequest.getLastName();
+        String email = userCreateRequest.getEmail();
+        String password = userCreateRequest.getPassword();
         Optional<User> result = Optional.empty();
         try (connection) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(

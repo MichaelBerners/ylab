@@ -7,7 +7,7 @@ import lombok.*;
  * Класс описывающий показания счетчика
  */
 @Data
-public class CounterReadings {
+public class CounterReading {
 
     @EqualsAndHashCode.Exclude
     private Long id;

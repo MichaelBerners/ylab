@@ -1,6 +1,8 @@
 package service;
 
-import domain.entity.CounterReadings;
+import domain.dto.request.CounterReadingCreateRequest;
+import domain.dto.request.CounterReadingYearMonthRequest;
+import domain.dto.response.CounterReadingResponse;
 
 import java.util.List;
 
@@ -8,42 +10,40 @@ public interface CounterReadingsService {
 
     /**
      * Метод создания нового показания счетчика
-     * @param userId лицевой счет пользователя
-     * @param counterType тип счетчика
-     * @param readings показания счетчика
-     * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
-     * @throw CounterReadingsException("This is counter type not found") - тип счетчика не найден
-     * @throw CounterReadingsException("The testimony can be submitted once a month!") в случае если у этого показания
+     *
+     * @param counterReadingCreateRequest@throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
+     * @throw CounterReadingsException(" This is counter type not found ") - тип счетчика не найден
+     * @throw CounterReadingsException(" The testimony can be submitted once a month ! ") в случае если у этого показания
      * совпадает: тип счетчика, месяц и serId с имеющимся в БД
      */
-    void create(Long userId, String counterType, Double readings);
+    void create(CounterReadingCreateRequest counterReadingCreateRequest);
 
     /**
      * Метод получения актуальных показаний счетчиков
+     *
      * @param userId лицевой счет пользователя
      * @return список актуальных показаний счетчиков за последний месяц
-     * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
+     * @throw UserException(" User not found ") в случае если пользователь c таким лицевым счтом отсутствует
      */
-    List<CounterReadings> readActualReadings(Long userId);
+    List<CounterReadingResponse> readActualReadings(Long userId);
 
     /**
      * Метод получения показаний счетчиков за определенный месяц
-     * @param userId лицевой счет пользователя
-     * @param month год за который ищутся показания
-     * @param month месяц за который ищутся показания
-     * @return список показаний пользователя за конкретный месяц
-     * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
-     * @throw CounterReadingsException("There are no counter readings for this month") в случае если показания счечиков
+     *
+     * @param counterReadingYearMonthRequest@return список показаний пользователя за конкретный месяц
+     * @throw UserException(" User not found ") в случае если пользователь c таким лицевым счтом отсутствует
+     * @throw CounterReadingsException(" There are no counter readings for this month ") в случае если показания счечиков
      * за текущий месяц отсутствуют
      */
-    List<CounterReadings> readYearMonthReadings(Long userId, int year, int month);
+    List<CounterReadingResponse> readYearMonthReadings(CounterReadingYearMonthRequest counterReadingYearMonthRequest);
 
     /**
      * Метод вывода итории подачи показаний сгруппированных по типу
+     *
      * @param userId лицевой счет пользователя
      * @return все показания пользователя
-     * @throw UserException("User not found") в случае если пользователь c таким лицевым счтом отсутствует
-     * @throw CounterReadingsException("There are no counter readings") в случае если показания счечиков отсутствуют
+     * @throw UserException(" User not found ") в случае если пользователь c таким лицевым счтом отсутствует
+     * @throw CounterReadingsException(" There are no counter readings ") в случае если показания счечиков отсутствуют
      */
-    List<CounterReadings> readHistoryReadings(Long userId);
+    List<CounterReadingResponse> readHistoryReadings(Long userId);
 }
