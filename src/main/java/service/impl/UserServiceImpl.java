@@ -1,6 +1,7 @@
 package service.impl;
 
 import domain.dao.UserDao;
+import domain.dto.request.UserCreateRequest;
 import domain.entity.User;
 
 import domain.exception.UserException;
@@ -23,8 +24,8 @@ public class UserServiceImpl implements UserService {
      * @throw UserException("The user exists!") в случае если пользователь существует(проверка по полю email)
      */
     @Override
-    public void create(String firstName, String lastName, String email, String password) {
-        User createdUser = userDao.create(firstName)
+    public void create(UserCreateRequest userCreateRequest) {
+        User createdUser = userDao.create(userCreateRequest)
                 .orElseThrow(() -> new UserException("the user has not been created"));
         userAuditService.create(createdUser.getId(), "creating a user");
         System.out.println("registration was successful");

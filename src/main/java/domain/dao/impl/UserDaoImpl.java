@@ -27,30 +27,29 @@ public final class UserDaoImpl implements UserDao {
         String email = userCreateRequest.getEmail();
         String password = userCreateRequest.getPassword();
         Optional<User> result = Optional.empty();
-        try (connection) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into counters_monitoring.users (user_role, first_name, last_name, email, password) values (?, ?, ?, ?, ?)",
-                    Statement.RETURN_GENERATED_KEYS)) {
-                UserRole userRole = UserRole.CLIENT;
-                preparedStatement.setString(1, userRole.name());
-                preparedStatement.setString(2, firstName);
-                preparedStatement.setString(3, lastName);
-                preparedStatement.setString(4, email);
-                preparedStatement.setString(5, password);
-                preparedStatement.executeUpdate();
 
-                User newUser = new User();
-                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-                generatedKeys.next();
-                newUser.setId(generatedKeys.getLong("id"));
-                newUser.setUserRole(userRole);
-                newUser.setFirstName(firstName);
-                newUser.setLastName(lastName);
-                newUser.setEmail(email);
-                newUser.setPassword(password);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "insert into counters_monitoring.users (user_role, first_name, last_name, email, password) values (?, ?, ?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
+            UserRole userRole = UserRole.CLIENT;
+            preparedStatement.setString(1, userRole.name());
+            preparedStatement.setString(2, firstName);
+            preparedStatement.setString(3, lastName);
+            preparedStatement.setString(4, email);
+            preparedStatement.setString(5, password);
+            preparedStatement.executeUpdate();
 
-                result = Optional.ofNullable(newUser);
-            }
+            User newUser = new User();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            generatedKeys.next();
+            newUser.setId(generatedKeys.getLong("id"));
+            newUser.setUserRole(userRole);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setEmail(email);
+            newUser.setPassword(password);
+
+            result = Optional.ofNullable(newUser);
         } catch (SQLException e) {
             System.out.println("SQL Exception : " + e.getMessage());
         }

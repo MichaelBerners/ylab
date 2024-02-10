@@ -19,7 +19,7 @@
         <junitTestcontainers.version>1.19.4</junitTestcontainers.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <servlet.version>6.0.0</servlet.version>
-        <jackson.version>2.16.1</jackson.version>
+        <jackson.version>2.15.2</jackson.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -80,6 +80,16 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
         </dependency>
         <dependency>

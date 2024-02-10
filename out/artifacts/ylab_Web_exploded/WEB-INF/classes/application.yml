@@ -1,0 +1,3 @@
+db.url: jdbc:postgresql://localhost:5420/monitoring_repository
+db.userName: admin
+db.password: 111
