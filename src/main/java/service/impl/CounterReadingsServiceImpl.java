@@ -31,9 +31,14 @@ public class CounterReadingsServiceImpl implements CounterReadingsService {
      * совпадает: тип счетчика, месяц и serId с имеющимся в БД
      */
     @Override
-    public void create(CounterReadingCreateRequest counterReadingCreateRequest) {
-        counterReadingsDao.create(counterReadingCreateRequest);
+    public CounterReadingResponse create(CounterReadingCreateRequest counterReadingCreateRequest) {
+        Long userId = counterReadingCreateRequest.getUserId();
+        String counterType = counterReadingCreateRequest.getCounterType();
+        Double readings = counterReadingCreateRequest.getReadings();
+        CounterReading counterReading = counterReadingsDao.create(userId, counterType, readings);
         userAuditService.create(counterReadingCreateRequest.getUserId(), "create counter readings " + counterReadingCreateRequest.getCounterType());
+
+        return counterReadingMapper.counterReadingToCounterReadingResponse(counterReading);
     }
 
     /**
@@ -62,13 +67,15 @@ public class CounterReadingsServiceImpl implements CounterReadingsService {
      */
     @Override
     public List<CounterReadingResponse> readYearMonthReadings(CounterReadingYearMonthRequest counterReadingYearMonthRequest) {
-        List<CounterReadingResponse> result =
-                counterReadingsDao.findCounterReadingsByUserIdAndYearMonth(counterReadingYearMonthRequest).stream()
-                        .map(counterReadingMapper::counterReadingToCounterReadingResponse).collect(Collectors.toList());
+        Long userId = counterReadingYearMonthRequest.getUserId();
+        int year = counterReadingYearMonthRequest.getYear();
+        int month = counterReadingYearMonthRequest.getMonth();
+        List<CounterReading> counterReadings = counterReadingsDao.findCounterReadingsByUserIdAndYearMonth(userId, year, month);
+        List<CounterReadingResponse> result = counterReadings.stream()
+                .map(counterReadingMapper::counterReadingToCounterReadingResponse).collect(Collectors.toList());
         userAuditService.create(counterReadingYearMonthRequest.getUserId(),
                 "read the readings for the year and month : " + counterReadingYearMonthRequest.getYear() + " , " +
-                counterReadingYearMonthRequest.getMonth())
-        ;
+                        counterReadingYearMonthRequest.getMonth());
 
         return result;
     }

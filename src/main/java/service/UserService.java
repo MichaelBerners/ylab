@@ -2,6 +2,8 @@ package service;
 
 
 import domain.dto.request.UserCreateRequest;
+import domain.dto.response.UserResponse;
+import domain.entity.User;
 
 public interface UserService {
 
@@ -13,7 +15,7 @@ public interface UserService {
      * @param password - password
      * @throw UserException("The user exists!") в случае если пользователь существует(проверка по полю email)
      */
-    void create(UserCreateRequest userCreateRequest);
+    UserResponse create(UserCreateRequest userCreateRequest);
     /**
      * метод авторизации пользователя (проверка по email и password)
      * @param email email

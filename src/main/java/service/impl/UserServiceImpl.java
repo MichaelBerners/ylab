@@ -1,7 +1,9 @@
 package service.impl;
 
 import domain.dao.UserDao;
+import domain.dto.mapper.UserMapper;
 import domain.dto.request.UserCreateRequest;
+import domain.dto.response.UserResponse;
 import domain.entity.User;
 
 import domain.exception.UserException;
@@ -14,21 +16,26 @@ import service.UserService;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final UserAuditService userAuditService;
+    private final UserMapper userMapper = UserMapper.INSTANCE;
 
     /**
      * Метод авторизации (создания нового) пользователя с правами по умолчанию : UserRole.CLIENT
-     * @param firstName имя пользователя
-     * @param lastName фамилия пользователя
-     * @param email - email
-     * @param password - password
+
      * @throw UserException("The user exists!") в случае если пользователь существует(проверка по полю email)
      */
     @Override
-    public void create(UserCreateRequest userCreateRequest) {
-        User createdUser = userDao.create(userCreateRequest)
-                .orElseThrow(() -> new UserException("the user has not been created"));
+    public UserResponse create(UserCreateRequest userCreateRequest) {
+        String firstName = userCreateRequest.getFirstName();
+        String lastName = userCreateRequest.getLastName();
+        String email = userCreateRequest.getEmail();
+        String password = userCreateRequest.getPassword();
+        User createdUser = userDao.create(firstName, lastName, email, password);
         userAuditService.create(createdUser.getId(), "creating a user");
-        System.out.println("registration was successful");
+        UserResponse userResponse = userMapper.userToUserResponse(createdUser);
+        System.out.println();
+
+        return userResponse;
+
     }
 
     /**

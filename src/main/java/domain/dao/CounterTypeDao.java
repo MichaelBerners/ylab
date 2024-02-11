@@ -1,6 +1,8 @@
 package domain.dao;
 
+import domain.entity.CounterType;
+
 public interface CounterTypeDao {
 
-    void create(String newType);
+    CounterType create(String newType);
 }

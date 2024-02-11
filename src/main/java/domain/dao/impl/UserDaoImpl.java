@@ -21,12 +21,8 @@ public final class UserDaoImpl implements UserDao {
      * @param userCreateRequest@return объект добавленного пользователя
      */
     @Override
-    public Optional<User> create(UserCreateRequest userCreateRequest) {
-        String firstName = userCreateRequest.getFirstName();
-        String lastName = userCreateRequest.getLastName();
-        String email = userCreateRequest.getEmail();
-        String password = userCreateRequest.getPassword();
-        Optional<User> result = Optional.empty();
+    public User create(String firstName, String lastName, String email, String password) {
+        User result = null;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "insert into counters_monitoring.users (user_role, first_name, last_name, email, password) values (?, ?, ?, ?, ?)",
@@ -39,22 +35,24 @@ public final class UserDaoImpl implements UserDao {
             preparedStatement.setString(5, password);
             preparedStatement.executeUpdate();
 
-            User newUser = new User();
+            result = new User();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
-            newUser.setId(generatedKeys.getLong("id"));
-            newUser.setUserRole(userRole);
-            newUser.setFirstName(firstName);
-            newUser.setLastName(lastName);
-            newUser.setEmail(email);
-            newUser.setPassword(password);
+            result.setId(generatedKeys.getLong("id"));
+            result.setUserRole(userRole);
+            result.setFirstName(firstName);
+            result.setLastName(lastName);
+            result.setEmail(email);
+            result.setPassword(password);
 
-            result = Optional.ofNullable(newUser);
         } catch (SQLException e) {
             System.out.println("SQL Exception : " + e.getMessage());
         }
 
-        return result;
+        if(result != null) {
+            return result;
+        }
+        else throw new UserException("the user has not been created");
 
     }
 

@@ -16,7 +16,7 @@ public interface CounterReadingsService {
      * @throw CounterReadingsException(" The testimony can be submitted once a month ! ") в случае если у этого показания
      * совпадает: тип счетчика, месяц и serId с имеющимся в БД
      */
-    void create(CounterReadingCreateRequest counterReadingCreateRequest);
+    CounterReadingResponse create(CounterReadingCreateRequest counterReadingCreateRequest);
 
     /**
      * Метод получения актуальных показаний счетчиков
